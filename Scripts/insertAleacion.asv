@@ -1,0 +1,5 @@
+function insertAleacion(conexionDB, parsedLine)
+    if parsedLine{2} ~= '0'
+        string = ['INSERT INTO Aleaciones VALUES(' parsedLine{3} '
+    end
+end

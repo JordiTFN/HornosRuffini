@@ -1,5 +1,5 @@
 function insertEmpleado(conexionDB, parsedLine)
-    if parsedLine{2} ~= 0
+    if parsedLine{2} ~= '0'
         string = "INSERT INTO Empleados VALUES("; %Concatenamos los diferentes Strings para general la consulta
         string = strcat(string, parsedLine{3});   %SQL que añadirá un empleado a la tabla
         string = strcat(string,", '");
