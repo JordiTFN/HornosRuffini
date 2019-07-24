@@ -1,0 +1,1 @@
+SELECT O.TURNO, O.Fecha,O.Ocupacion, E.NombreCompleto FROM OCUPACIONES O, EMPLEADOS E WHERE O.IDEmpleado = E.ID;
