@@ -1,3 +1,13 @@
+disp("Ejecutando la transformacón del fichero de datos medinate Python...")
+drawnow
+
+if system("python ../Python/processData.py") == 0
+    disp("Datos transformados correctamente.")
+else
+    disp("Error al ejecutar el script.")
+end
+drawnow
+
 disp("Creando tablas de la base de datos y leyendo el fichero de inicialización...")
 drawnow
 tic
@@ -11,10 +21,11 @@ exec(conexionDB, 'DROP TABLE IF EXISTS Ocupaciones'); %Si la tabla ya existe la 
 exec(conexionDB, 'DROP TABLE IF EXISTS Aleaciones'); %Si la tabla ya existe la eliminamos
 exec(conexionDB, 'DROP TABLE IF EXISTS Briquetas'); %Si la tabla ya existe la eliminamos
 exec(conexionDB, 'CREATE TABLE Calendario(Fecha DATE NOT NULL PRIMARY KEY)'); %Creamos la tabla de fechas
-exec(conexionDB, 'CREATE TABLE Empleados(ID INT NOT NULL PRIMARY KEY, Codigo VARCHAR(50) NOT NULL, NombreCompleto VARCHAR(100))'); %Creamos la tabla de empleados
+exec(conexionDB, 'CREATE TABLE Empleados(ID INT NOT NULL PRIMARY KEY, Codigo VARCHAR(50) NOT NULL, Nombre VARCHAR(100))'); %Creamos la tabla de empleados
 exec(conexionDB, 'CREATE TABLE Ocupaciones(Fecha DATE NOT NULL, Turno INT NOT NULL, IDEmpleado INT NOT NULL, Ocupacion VARCHAR(20) NOT NULL, PRIMARY KEY(Fecha, Turno, IDEmpleado))'); %Creamos la tabla de Ocupaciones
 exec(conexionDB, 'CREATE TABLE Aleaciones(ID INT NOT NULL PRIMARY KEY, Codigo VARCHAR(20) NOT NULL, Nombre VARCHAR(50) NOT NULL)');
 exec(conexionDB, 'CREATE TABLE Briquetas(ID INT NOT NULL PRIMARY KEY, Codigo VARCHAR(20) NOT NULL, Nombre VARCHAR(50), Fe FLOAT, Si FLOAT, Cu FLOAT, Mn FLOAT, Mg FLOAT, Zn FLOAT, Sn FLOAT, Ti FLOAT, Cr FLOAT, Ni FLOAT, Pb FLOAT)');
+exec(conexionDB, 'CREATE TABLE Recursos(ID INT NOT NULL PRIMARY KEY, Codigo VARCHAR(50) NOT NULL, Nombe VARCHAR(150))');
 fileId = fopen('../../Data/Processed_Data/Processed_Data.txt'); %Abrimos el archivo de datos
 fileLine = fgetl(fileId); %Vamos a iterando de linea en linea
 

@@ -25,3 +25,6 @@ for line in rawDataFile:
             line = line.replace(' ', '')
 
         processedDataFile.write(line) if doWrite else ()
+
+rawDataFile.close()
+processedDataFile.close()
