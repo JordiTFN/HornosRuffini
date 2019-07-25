@@ -1,0 +1,26 @@
+function insertBriqueta(conexionDB, parsedLine)
+    if parsedLine{2} ~= '0'
+        %disp(['Briqueta: ' parsedLine{4}])
+        string = "INSERT INTO Briquetas VALUES(";
+        string = strcat(string, parsedLine{3});
+        string = strcat(string, ", '");
+        string = strcat(string, parsedLine{4});
+        string = strcat(string, "', '");
+        string = strcat(string, parsedLine{5});
+        string = strcat(string, "', ");
+        string = strcat(string, parsedLine{6});
+        string = strcat(string, ", ");
+        string = strcat(string, parsedLine{7});
+        string = strcat(string, ", ");
+        string = strcat(string, parsedLine{8});
+        string = strcat(string, ", ");
+        string = strcat(string, parsedLine{9});
+        string = strcat(string, ", ");
+        string = strcat(string, parsedLine{10});
+        string = strcat(string, ", ");
+        string = starcat(string, parsedLine{11});
+        string = strcat(string, ", ");
+        string = strcat(string, 
+        disp(string)
+    end
+end
