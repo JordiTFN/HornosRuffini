@@ -9,6 +9,13 @@ SELECT YEAR(FECHA), MONTH(Fecha), SUM(Cantidad) FROM Registros
 WHERE Tipo = 'GAS'
 GROUP BY YEAR(FECHA), MONTH(Fecha);
 
+#--El consumo de gas total para cada turno---#
+SELECT Turno, SUM(Cantidad) FROM Registros
+WHERE Tipo = "GAS"
+GROUP BY Turno;
+
+SELECT DISTINCT Tipo FROM Registros;
+
 SELECT * FROM ALEACIONES;
 SELECT * FROM BRIQUETAS;
 SELECT * FROM CALENDARIO;
