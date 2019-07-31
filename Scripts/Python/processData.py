@@ -1,8 +1,13 @@
+import pandas as pd
+
 pathToRawFile = "../../Data/Raw_Data/DatosHornos.txt"
 pathToProcessedFile = "../../Data/Processed_Data/Processed_Data.txt"
+pathToRegistersFile = "../../Data/Processed_Data/Resgisters.txt"
 rawDataFile = open(pathToRawFile, 'r')
 processedDataFile = open(pathToProcessedFile, 'w+')
+registersDataFile = open(pathToRegistersFile, 'w+')
 
+registersDataFile.write("[registro];0;id;codigo;nombre;fecha;turno;tipo;cantidad;kgs;;;;;;;;;;;EOL;")
 dateLines = []
 for line in rawDataFile:
     doWrite = True
@@ -28,6 +33,18 @@ for line in rawDataFile:
             line = line.replace(' ', '')
 
         processedDataFile.write(line) if doWrite else ()
+        registersDataFile.write(line) if doWrite and parsedLine[0] == '[registro]' else ()
 
 rawDataFile.close()
 processedDataFile.close()
+registersDataFile.close()
+
+
+registersDataFrame = pd.read_csv(pathToRegistersFile, sep=';', usecols=['id', 'codigo', 'fecha', 'turno', 'tipo', 'cantidad', 'kgs'])
+registersDates = registersDataFrame.fecha.unique()
+registersTurns = registersDataFrame.turno.unique()
+
+for fecha in registersDates:
+    for turno in registersTurns:
+        print("---> " + fecha + " / " + str(turno))
+        print(registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno])
