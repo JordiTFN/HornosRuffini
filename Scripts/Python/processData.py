@@ -44,11 +44,11 @@ processedDataFile.close()
 registersDataFile.close()
 
 #-------------------------------------------------⬆️⬆️⬆️NORMALIZACIÓN INICIAL DE DATOS⬆️⬆️⬆️-------------------------------------------------#
-#==============================================================================================================================================#
+#===============================================================================================================================================#
 #-------------------------------------------------⬇️⬇️⬇️CREACIÓN DE TABLA DE REGISTROS⬇️⬇️⬇️-------------------------------------------------#
 
 processedRegistersFile = open(pathToProcessedRegisters, 'w+')
-processedRegistersFile.write("fecha;turno;gas;limpieza" + "\n")
+processedRegistersFile.write("fecha;turno;gas;limpieza;temChimenea;temBobeda" + "\n")
 
 registersDataFrame = pd.read_csv(pathToRegistersFile, sep=';', usecols=['id', 'codigo', 'fecha', 'turno', 'tipo', 'cantidad', 'kgs'])
 registersDates = registersDataFrame.fecha.unique()
@@ -58,16 +58,11 @@ for fecha in registersDates:
     for turno in registersTurns:
         sumaGas = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'GAS']['cantidad'].sum(axis=0)
         sumaLimpieza = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'LIMPIEZA']['cantidad'].sum(axis=0)
-        processedRegistersFile.write(str(fecha) + ";" + str(turno) + ";" + str(sumaGas) + ";" + str(sumaLimpieza) + "\n")
+        temChimenea = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'TEMCHIMENEA']['cantidad'].sum(axis=0)
+        temBobeda = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'TEMBOBEDA']['cantidad'].sum(axis=0)
+        print(temChimenea)
+        print(temBobeda)
+        processedRegistersFile.write(str(fecha) + ";" + str(turno) + ";" + str(sumaGas) + ";" + str(sumaLimpieza) + ";" + str(temChimenea) + ";" + str(temBobeda) + "\n")
 
 processedRegistersFile.close()
 os.remove(pathToRegistersFile)
-
-sns.set(style='white')
-testDataFrame = pd.read_csv(pathToProcessedRegisters, sep=';').head(30*3)
-plot = sns.barplot(data=testDataFrame, x='fecha', y='gas', hue='turno', ci=0)
-plot.set(xlabel = "Fecha", ylabel = "Consumo de gas")
-plot.set_xticklabels(labels=plot.get_xticklabels() ,rotation=45)
-#plot.text("Eskere")
-sns.despine()
-plt.show()
