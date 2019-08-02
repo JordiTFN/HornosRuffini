@@ -48,7 +48,7 @@ registersDataFile.close()
 #-------------------------------------------------⬇️⬇️⬇️CREACIÓN DE TABLA DE REGISTROS⬇️⬇️⬇️-------------------------------------------------#
 
 processedRegistersFile = open(pathToProcessedRegisters, 'w+')
-processedRegistersFile.write("fecha;turno;gas;limpieza;temChimenea;temBobeda" + "\n")
+processedRegistersFile.write("fecha;turno;gas;limpieza;temChimenea;temBobeda;escoria;inactividad;natahorno;natacuba;natamaquina;briqueta;kgcuba;kglingote;kgcajacolada;cantidadcuba;cantidadlingote;cantidadcajacolada" + "\n")
 
 registersDataFrame = pd.read_csv(pathToRegistersFile, sep=';', usecols=['id', 'codigo', 'fecha', 'turno', 'tipo', 'cantidad', 'kgs'])
 registersDates = registersDataFrame.fecha.unique()
@@ -60,9 +60,39 @@ for fecha in registersDates:
         sumaLimpieza = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'LIMPIEZA']['cantidad'].sum(axis=0)
         temChimenea = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'TEMCHIMENEA']['cantidad'].sum(axis=0)
         temBobeda = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'TEMBOBEDA']['cantidad'].sum(axis=0)
-        print(temChimenea)
-        print(temBobeda)
-        processedRegistersFile.write(str(fecha) + ";" + str(turno) + ";" + str(sumaGas) + ";" + str(sumaLimpieza) + ";" + str(temChimenea) + ";" + str(temBobeda) + "\n")
+        escoria = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'ESCORIA']['cantidad'].sum(axis=0)
+        inactividad = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'INACTIVO']['cantidad'].sum(axis=0)
+        nataHorno = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'NATAHORNO']['cantidad'].sum(axis=0)
+        nataCuba = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'NATACUBA']['cantidad'].sum(axis=0)
+        nataMaquina = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'NATAMAQUINA']['cantidad'].sum(axis=0)
+        briqueta = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'BRIQUETA']['cantidad'].sum(axis=0)
+        kgCuba = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'CUBA']['kgs'].sum(axis=0)
+        cantidadCuba = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'CUBA']['cantidad'].sum(axis=0)
+        kgLingote = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'LINGOTE']['kgs'].sum(axis=0)
+        cantidadLingote = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'LINGOTE']['cantidad'].sum(axis=0)
+        kgCajaColda = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'CAJACOLADA']['kgs'].sum(axis=0)
+        cantidadCajaColada = registersDataFrame[registersDataFrame.fecha == fecha][registersDataFrame.turno == turno][registersDataFrame.tipo == 'CAJACOLADA']['cantidad'].sum(axis=0)
+
+
+        processedRegistersFile.write(str(fecha) + ";"
+        + str(turno) + ";" 
+        + str(sumaGas) + ";" 
+        + str(sumaLimpieza) + ";" 
+        + str(temChimenea) + ";" 
+        + str(temBobeda) + ";"
+        + str(escoria) + ";"
+        + str(inactividad) + ";"
+        + str(nataHorno) + ";"
+        + str(nataCuba) + ";"
+        + str(nataMaquina) + ";"
+        + str(briqueta) + ";"
+        + str(kgCuba) + ";"
+        + str(kgLingote) + ";" 
+        + str(kgCajaColda) + ";"
+        + str(cantidadCuba) + ";"
+        + str(cantidadLingote) + ";"
+        + str(cantidadCajaColada)
+        + "\n")
 
 processedRegistersFile.close()
 os.remove(pathToRegistersFile)
